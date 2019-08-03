@@ -2,9 +2,8 @@ package persistence
 
 import (
 	"FilteringService/model"
+	"bytes"
 	"encoding/json"
-
-	// "log"
 
 	"github.com/garyburd/redigo/redis"
 )
@@ -31,42 +30,61 @@ func NewPool() *redis.Pool {
 
 func InsertRecords(rectangles []model.Rectangle) error {
 
-	c := Pool.Get()
-	defer c.Close()
+	conn := Pool.Get()
+	defer conn.Close()
 
 	for _, rect := range rectangles {
 
-		rectJSON, err := json.Marshal(rect)
+		rectJson, err := json.Marshal(rect)
 		if err != nil {
 			return err
 		}
-
-		_, err := c.Do("RPUSH", "rectangles", rectJSON)
+		_, err = conn.Do("RPUSH", "rectangles", rectJson)
 		if err != nil {
 			return err
 		}
 
 	}
 
-	// log.Println("inserted successfully")
-
 	return nil
 
 }
 
-// func GetRecords() []model.Rectangle {
+func GetRecords() []model.Rectangle {
 
-// 	connection := Pool.Get()
-// 	defer connection.Close()
+	conn := Pool.Get()
+	defer conn.Close()
 
-// 	rectJSONs, err := redis.ByteSlices(connection.Do("LRANGE" "rectangles", 0, -1))
+	rectJSONs, err := redis.ByteSlices(conn.Do("LRANGE", "rectangles", 0, -1))
 
-// 	if err != nil {
-// 		log.Fatal("Error in fetch from database.")
-// 		}
+	if err != nil {
+		panic(err)
+	}
 
-// 	rectangles := json.Unmarshal(rectJSONs)
+	var rectangles []model.Rectangle
 
-// 	return rectangles
+	for _, item := range rectJSONs {
+		var rect model.Rectangle
+		err := json.NewDecoder(bytes.NewReader(item)).Decode(&rect)
+		if err != nil {
+			panic(err)
+		}
+		rectangles = append(rectangles, rect)
+	}
 
+	return rectangles
+
+}
+
+// items, err := redis.ByteSlices(d.Conn.Do("LRANGE", "objects", "0", "-1"))
+// if err != nil {
+//    // handle error
+// }
+// var values []*Object
+// for _, item := range items {
+//     var v Object
+//     if err := gob.NewDecoder(bytes.NewReader(item)).Decode(&v); err != nil {
+//         // handle error
+//     }
+//     values = append(values, &v)
 // }

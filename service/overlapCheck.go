@@ -13,10 +13,10 @@ func FindOverlappedRectangles(main model.Rectangle, inputs []model.Rectangle) []
 	for _, rect := range inputs {
 
 		//if one rectangle is above the other or next to the other, they're not overlapped.
-		aboveCondition := main.Y < rect.Y-rect.Height || rect.Y < main.Y-main.Height
-		nextToCondition := rect.X-rect.Width > main.X || main.X-main.Width > rect.X
+		above := main.Y < rect.Y-rect.Height || rect.Y < main.Y-main.Height
+		nextTo := rect.X-rect.Width > main.X || main.X-main.Width > rect.X
 
-		if !(aboveCondition && nextToCondition) {
+		if !(above && nextTo) {
 			rect.CreatedAt = currentTime
 			overlappedRectangles = append(overlappedRectangles, rect)
 		}

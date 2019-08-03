@@ -1,0 +1,44 @@
+Post:
+{
+	"main": {"x":0, "y":0, "width":10, "height":20},
+	"input":[
+		{"x":2, "y":18, "width":5, "height":4},
+		{"x":12, "y":18, "width":5, "height":4},
+		{"x":-1, "y":-1, "width":5, "height":4}
+	]
+}
+Post:
+{
+	"main": {"x": 3, "y": 2, "width": 5, "height": 10},
+	"input": [
+		{"x": 4, "y": 10, "width": 1, "height": 1},
+		{"x": 9, "y": 10, "width": 5, "height": 4}
+	]
+}
+
+
+Get result:
+
+[
+    {
+        "X": 2,
+        "Y": 18,
+        "Width": 5,
+        "Height": 4,
+        "CreatedAt": "2019-08-03T21:18:16.181430547+04:30"
+    },
+    {
+        "X": -1,
+        "Y": -1,
+        "Width": 5,
+        "Height": 4,
+        "CreatedAt": "2019-08-03T21:18:16.181430547+04:30"
+    },
+    {
+        "X": 4,
+        "Y": 10,
+        "Width": 1,
+        "Height": 1,
+        "CreatedAt": "2019-08-03T23:16:52.23148981+04:30"
+    }
+]

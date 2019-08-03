@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var Pool *redis.Pool = persistence.newPool()
+var Pool *redis.Pool = persistence.NewPool()
 
 func main() {
 

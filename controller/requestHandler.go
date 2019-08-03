@@ -33,16 +33,16 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 
 func GetHandler(w http.ResponseWriter, r *http.Request) {
 
-	// results = persistence.GetRecords()
+	results := persistence.GetRecords()
 
-	// //Marshal or convert user object back to json and write to response
-	// rectangles, err := json.Marshal(results)
-	// if err != nil {
-	// 	panic(err)
-	// }
+	//Marshal or convert user object back to json and write to response
+	rectangles, err := json.Marshal(results)
+	if err != nil {
+		panic(err)
+	}
 
-	// w.Header().Set("Content-Type", "application/json")
-	// w.WriteHeader(http.StatusOK)
-	// w.Write(rectangles)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(rectangles)
 
 }
