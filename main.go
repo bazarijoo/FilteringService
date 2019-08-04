@@ -14,12 +14,6 @@ var Pool *redis.Pool = persistence.NewPool()
 func main() {
 
 	persistence.Pool = Pool
-	// conn := pool.Get()
-	// defer conn.Close()
-	// err := ping(conn)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
 
 	r := mux.NewRouter()
 

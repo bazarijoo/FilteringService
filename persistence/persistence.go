@@ -4,6 +4,7 @@ import (
 	"FilteringService/model"
 	"bytes"
 	"encoding/json"
+	"log"
 
 	"github.com/garyburd/redigo/redis"
 )
@@ -37,14 +38,18 @@ func InsertRecords(rectangles []model.Rectangle) error {
 
 		rectJson, err := json.Marshal(rect)
 		if err != nil {
+			log.Fatal("Error occured in marshalling data.")
 			return err
 		}
 		_, err = conn.Do("RPUSH", "rectangles", rectJson)
 		if err != nil {
+			log.Fatal("Error in inserting to database.")
 			return err
 		}
 
 	}
+
+	log.Println("successfully added data.")
 
 	return nil
 
@@ -67,7 +72,7 @@ func GetRecords() []model.Rectangle {
 		var rect model.Rectangle
 		err := json.NewDecoder(bytes.NewReader(item)).Decode(&rect)
 		if err != nil {
-			panic(err)
+			log.Fatal("Error occured in converting to objects.")
 		}
 		rectangles = append(rectangles, rect)
 	}
@@ -75,16 +80,3 @@ func GetRecords() []model.Rectangle {
 	return rectangles
 
 }
-
-// items, err := redis.ByteSlices(d.Conn.Do("LRANGE", "objects", "0", "-1"))
-// if err != nil {
-//    // handle error
-// }
-// var values []*Object
-// for _, item := range items {
-//     var v Object
-//     if err := gob.NewDecoder(bytes.NewReader(item)).Decode(&v); err != nil {
-//         // handle error
-//     }
-//     values = append(values, &v)
-// }
